@@ -1,19 +1,22 @@
 import React from 'react'
+import Card from 'react-bootstrap/Card';
 
-const BookItem = () => {
-
-     const bookTitle = "100 años de soledad"
-     const bookAuthor = "Gabriel Garcia Marquez"
-     const bookRating = 5
-     const pages = 140
+const BookItem = ({ title, author, rating, pageCount, imageUrl }) => {
 
   return (
-    <div>
-        <h2>{bookTitle}</h2>
-        <h3>{bookAuthor}</h3>
-        <div>{bookRating} Estrellas</div>
-        <p>{pages} páginas</p>
-    </div>
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={imageUrl} />
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{author}</Card.Subtitle>
+        <Card.Text>
+          {rating} Estrellas 
+        </Card.Text>
+        <Card.Text>
+          {pageCount} Páginas
+        </Card.Text>
+      </Card.Body>
+    </Card>
   )
 }
 
