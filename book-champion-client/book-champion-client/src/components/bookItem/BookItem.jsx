@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 const BookItem = ({ title, author, rating, pageCount, imageUrl }) => {
 
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card style={{ width: '18rem' }} className="mx-3">
       <Card.Img variant="top" src={imageUrl} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
