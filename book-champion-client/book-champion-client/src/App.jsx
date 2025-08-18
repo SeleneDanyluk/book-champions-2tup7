@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import './App.css'
 import Books from './components/books/Books';
 import NewBook from './components/newBook/NewBook';
-const books = [
+import Login from './components/login/Login';
+const booksInitials = [
   {
     id: 1,
     bookTitle: "100 años de soledad",
@@ -46,12 +48,28 @@ const books = [
 
 
 function App() {
+
+  const [books, setBooks] = useState(booksInitials)
+
+  const handleBookAdded = (enteredBook) => {
+    const bookData = {
+      ...enteredBook,
+      id: Math.random().toString(),
+      bookRating: Array(Number(enteredBook.rating)).fill("*")
+    };
+
+    setBooks((prevBooks) => {
+      return [...prevBooks, bookData]
+    });
+  }
+
   return (
     <>
-      <h1>Book champions app</h1>
+      {/* <h1>Book champions app</h1>
       <p>Quiero leer libros!</p>
-      <NewBook />
-      <Books books={books} />
+      <NewBook onBookAdded={handleBookAdded} />
+      <Books books={books} /> */}
+      <Login />
     </>
   )
 }

@@ -1,33 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BookItem from '../bookItem/BookItem'
-   
+import BookSearch from '../bookSearch/BookSearch'
 
 const Books = ({ books }) => {
+  const [search, setSearch] = useState("")
+
+  const handleSearch = (value) => {
+    setSearch(value)
+  };
+
+  const filteredBooks = books.filter((book) => {
+    if (!search) return true
     return (
-        <div className="d-flex justify-content-center flex-wrap">
-            <BookItem
-                title={books[0].bookTitle}
-                author={books[0].bookAuthor}
-                rating={books[0].bookRating}
-                pageCount={books[0].pageCount}
-                imageUrl={books[0].imageUrl}
-            />
-            <BookItem
-                title={books[1].bookTitle}
-                author={books[1].bookAuthor}
-                rating={books[1].bookRating}
-                pageCount={books[1].pageCount}
-                imageUrl={books[1].imageUrl}
-            />
-            <BookItem
-                title={books[2].bookTitle}
-                author={books[2].bookAuthor}
-                rating={books[2].bookRating}
-                pageCount={books[2].pageCount}
-                imageUrl={books[2].imageUrl}
-            />
-        </div>
+      book.bookTitle.toLowerCase().includes(search.toLowerCase()) ||
+      book.bookAuthor.toLowerCase().includes(search.toLowerCase())
     )
+  });
+
+  return (
+    <div className="d-flex justify-content-center flex-wrap my-5">
+      <div className="container w-50 d-flex justify-content-center flex-wrap">
+        <BookSearch onSearch={handleSearch} search={search} />
+      </div>
+
+      <div className="container d-flex justify-content-center flex-wrap">
+        {filteredBooks.length ? (
+          filteredBooks.map((book) => (
+            <BookItem
+              key={book.id}
+              id={book.id}
+              bookTitle={book.bookTitle}
+              author={book.bookAuthor}
+              rating={book.bookRating}
+              pages={book.pageCount}
+              imageUrl={book.imageUrl}
+            />
+          ))
+        ) : (
+          <p>No se encontraron libros</p>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default Books
+
+
