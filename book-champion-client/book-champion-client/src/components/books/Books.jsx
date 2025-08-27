@@ -29,11 +29,12 @@ const Books = ({ books }) => {
             <BookItem
               key={book.id}
               id={book.id}
-              bookTitle={book.bookTitle}
+              title={book.bookTitle}
               author={book.bookAuthor}
               rating={book.bookRating}
-              pages={book.pageCount}
+              pageCount={book.pageCount}
               imageUrl={book.imageUrl}
+              available={book.available}
             />
           ))
         ) : (
