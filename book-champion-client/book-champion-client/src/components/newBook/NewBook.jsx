@@ -1,5 +1,6 @@
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useState } from "react";
+import { useNavigate } from 'react-router';
 
 const NewBook = ({ onBookAdded }) => {
 
@@ -9,6 +10,8 @@ const NewBook = ({ onBookAdded }) => {
     const [pageCount, setPageCount] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [available, setAvailable] = useState("");
+
+    const navigate = useNavigate();
 
     const handleChangeTitle = (event) => {
         setTitle(event.target.value);
@@ -34,27 +37,36 @@ const NewBook = ({ onBookAdded }) => {
         setAvailable(event.target.checked);
     }
 
+    const handleGoBack = () => {
+        navigate("/library");
+    }
+
     const handleAddBook = (event) => {
         event.preventDefault();
 
         const bookData = {
-            bookTitle: title,
-            bookAuthor: author,
+            title: title,
+            author: author,
             rating: parseInt(rating, 10),
             pageCount: parseInt(pageCount, 10),
             imageUrl,
             available
         };
 
+        if(bookData.title == "" || bookData.author == ""){
+            alert("Titulo y autor requeridos.")
+            return;
+        };
+
         onBookAdded(bookData);
-        
+
         setTitle("");
         setAuthor("");
         setRating("");
         setPageCount("");
         setImageUrl("");
         setAvailable(false);
-    }
+    };
 
 
     return (
@@ -84,7 +96,7 @@ const NewBook = ({ onBookAdded }) => {
                                     placeholder="Ingresar cantidad de estrellas"
                                     max={5}
                                     min={0}
-                                    value={rating} 
+                                    value={rating}
                                     onChange={handleRatingChange}
                                 />
                             </Form.Group>
@@ -108,26 +120,29 @@ const NewBook = ({ onBookAdded }) => {
                             <Form.Control type="text" placeholder="Ingresar url de imagen" value={imageUrl} onChange={handleImageUrlChange} />
                         </Form.Group>
                     </Row>
-                    <Row className="justify-content-end">
-                        <Col md={3} className="d-flex flex-column justify-content-end align-items-end">
-                            <Form.Check
-                                type="switch"
-                                id="available"
-                                className="mb-3"
-                                label="¿Disponible?"
-                                value={available}
-                                onChange={handleAvailabilityChange}
-                            />
+                    <Row>
+                        <Col md={12} className="d-flex flex-column justify-content-end align-items-end">
+                            <Col className="d-flex flex-column justify-content-end align-items-end">
+                                <Form.Check
+                                    type="switch"
+                                    id="available"
+                                    className="mb-3"
+                                    label="¿Disponible?"
+                                    onChange={handleAvailabilityChange}
+                                    checked={available} />
+                            </Col>
+                        </Col>
+                        <Col md={12} className="d-flex justify-content-end">
+                            <Button onClick={handleGoBack} className="px-3 me-3" variant="secondary">Volver</Button>
                             <Button variant="primary" type="submit">
                                 Agregar lectura
                             </Button>
                         </Col>
                     </Row>
                 </Form>
-            </Card.Body>
-        </Card>
-    );
+            </Card.Body >
+        </Card >
+    )
 };
-
 
 export default NewBook;

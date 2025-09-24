@@ -5,6 +5,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import NotFound from './components/notFound/NotFound';
 import Protected from './components/protected/Protected';
 import { useState } from 'react';
+import { Navigate } from 'react-router';
 
 function App() {
 
@@ -12,20 +13,26 @@ function App() {
 
   const handleLogin = () => {
     setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
   }
 
   return (
-    <div>
+    <div className="d-flex flex-column align-items-center">
       <BrowserRouter>
         <Routes>
-          <Route
-            path='/'
-            element={
-              <Protected isSignedIn={loggedIn}>
-                <Dashboard />
-              </Protected>
-            } />
+          <Route path='/' element={<Navigate to='library' />} />
           <Route path='/login' element={<Login onLogin={handleLogin} />} />
+          <Route element={<Protected isSignedIn={loggedIn} />}>
+            <Route
+              path='/library/*'
+              element={
+                <Dashboard onLogout={handleLogout} />
+              }>
+            </Route>
+          </Route>
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
